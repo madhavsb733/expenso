@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Expenzo - Visualization</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      background: url('https://i.pinimg.com/736x/8b/a0/49/8ba04997b0a0fc445aac83cb2f41e8ce.jpg') no-repeat center center fixed;
+      background-size: 60%;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+  <!-- Full-Screen Green Blur Overlay -->
+  <div class="fixed inset-0 bg-green-900/40 backdrop-blur-sm -z-10"></div>
+
+  <!-- Main Content -->
+  <div class="min-h-screen flex flex-col">
+
+    <!-- Navigation Bar -->
+    <nav class="w-full bg-white/80 backdrop-blur-md shadow-md fixed top-0 left-0 z-50">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div class="text-2xl font-bold text-green-600">Expenzo</div>
+        <div class="hidden md:flex space-x-6 text-gray-700 font-medium">
+          <a href="dash.html" class="hover:text-green-600">Dashboard</a>
+          <a href="a.html" class="hover:text-green-600">Add Expense</a>
+          <a href="c.html" class="hover:text-green-600">Categorize</a>
+          <a href="visual.html" class="hover:text-green-600">Visualization</a>
+          <a href="logout.html" class="hover:text-green-600">Logout</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Spacer -->
+    <div class="pt-24"></div>
+
+    <!-- Chart Sections -->
+    <main class="flex-grow fade-in space-y-12 px-4 pb-12">
+
+      <!-- Monthly Bar Chart -->
+      <div class="max-w-6xl mx-auto glass p-8">
+        <h2 class="text-3xl font-bold text-center text-green-700 mb-6">Monthly Expenses (Bar Chart)</h2>
+        <canvas id="barChart" class="w-full h-64"></canvas>
+      </div>
+
+      <!-- Weekly Line Chart -->
+      <div class="max-w-6xl mx-auto glass p-8">
+        <h2 class="text-3xl font-bold text-center text-green-700 mb-6">Weekly Expense Trend (Line Chart)</h2>
+        <canvas id="lineChart" class="w-full h-64"></canvas>
+      </div>
+
+      <!-- Category Pie Chart -->
+      <div class="max-w-6xl mx-auto glass p-8">
+        <h2 class="text-3xl font-bold text-center text-green-700 mb-6">Category-wise Distribution (Pie Chart)</h2>
+        <canvas id="categoryChart" class="w-half h-64"></canvas>
+      </div>
+
+    </main>
+
+    <!-- Footer (unchanged) -->
+    <footer class="bg-green-100 py-10">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <div class="mb-4">
+          <i class="fas fa-coins text-3xl text-green-600"></i>
+          <h3 class="text-2xl font-bold text-green-700 mt-2">Expenzo</h3>
+        </div>
+        <p class="text-gray-600 text-sm flex justify-center items-center gap-2">
+          <i class="far fa-copyright"></i>
+          2025 Expenzo. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Chart Script -->
+  <script>
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Please login first.");
+      window.location.href = "login.html";
+    }
+
+    async function fetchAndRenderCharts() {
+      try {
+        const monthlyRes = await fetch(`/api/expenses/monthly/${userId}`);
+        const monthlyData = await monthlyRes.json();
+        const monthLabels = monthlyData.map(item => item.month);
+        const monthTotals = monthlyData.map(item => item.total);
+
+        new Chart(document.getElementById("barChart").getContext("2d"), {
+          type: "bar",
+          data: {
+            labels: monthLabels,
+            datasets: [{
+              label: "Monthly Expenses (₹)",
+              data: monthTotals,
+              backgroundColor: "#4CAF50"
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { callback: (value) => `₹${value}` }
+              }
+            }
+          }
+        });
+
+        const weeklyRes = await fetch(`/api/expenses/weekly/${userId}`);
+        const weeklyData = await weeklyRes.json();
+        const weekLabels = weeklyData.map(item => item.label);
+        const weekTotals = weeklyData.map(item => item.total);
+
+        new Chart(document.getElementById("lineChart").getContext("2d"), {
+          type: "line",
+          data: {
+            labels: weekLabels,
+            datasets: [{
+              label: "Weekly Expenses (₹)",
+              data: weekTotals,
+              borderColor: "#2e7d32",
+              backgroundColor: "rgba(76, 175, 80, 0.1)",
+              fill: true,
+              tension: 0.4
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { callback: (value) => `₹${value}` }
+              }
+            }
+          }
+        });
+
+        const catRes = await fetch(`/api/chart/category-summary/${userId}`);
+        const catData = await catRes.json();
+        const catLabels = catData.map(item => item.category);
+        const catTotals = catData.map(item => item.total);
+
+        new Chart(document.getElementById("categoryChart").getContext("2d"), {
+          type: "pie",
+          data: {
+            labels: catLabels,
+            datasets: [{
+              data: catTotals,
+              backgroundColor: [
+                "#66bb6a", "#43a047", "#81c784", "#a5d6a7", "#2e7d32", "#c8e6c9"
+              ]
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        });
+
+      } catch (err) {
+        console.error("Error rendering charts:", err);
+        alert("Could not load chart data. Check console.");
+      }
+    }
+
+    fetchAndRenderCharts();
+  </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Expenzo - Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome (optional for icons) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="text-gray-800">
+  <div class="relative min-h-screen">
+    
+    <!-- Background Image -->
+    <div class="absolute inset-0 z-0"
+      style="background: url('') no-repeat center center fixed;
+             background-size: cover;">
+    </div>
+
+    <!-- Green Fade Overlay with Blur -->
+    <div class="absolute inset-0 bg-green-900/40 backdrop-blur-sm z-10"></div>
+
+    <!-- Main Content -->
+    <div class="relative z-20 pt-28 px-4">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="text-3xl font-bold text-green-700 mb-10 text-center">Settings</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          
+          <!-- User Settings Box -->
+          <a href="login1.html"
+             class="block bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition glass">
+            <div class="flex flex-col items-center">
+              <div class="text-green-600 text-6xl mb-4">
+                <i class="fas fa-user-cog"></i>
+              </div>
+              <h3 class="text-2xl font-semibold text-gray-800">User Settings</h3>
+              <p class="mt-2 text-gray-600 text-center">
+                Manage your personal profile, preferences, and account details.
+              </p>
+            </div>
+          </a>
+
+          <!-- Admin Settings Box -->
+          <a href="admin-login.html"
+             class="block bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition glass">
+            <div class="flex flex-col items-center">
+              <div class="text-green-600 text-6xl mb-4">
+                <i class="fas fa-tools"></i>
+              </div>
+              <h3 class="text-2xl font-semibold text-gray-800">Admin Settings</h3>
+              <p class="mt-2 text-gray-600 text-center">
+                Configure system-wide options, manage users, and view analytics.
+              </p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional: glassmorphism styling (you can place this in a style tag or external CSS) -->
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</body>
+</html>

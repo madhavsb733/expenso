@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expenzo Dashboard</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      background: url('https://i.pinimg.com/736x/67/f5/ee/67f5ee88466163b0dc78b6d38a4855a3.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Green Fade Overlay -->
+  <div class="relative min-h-screen">
+    <div class="absolute inset-0 bg-green-900/40 backdrop-blur-sm z-0"></div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 min-h-screen text-gray-800">
+
+      <!-- Navigation -->
+      <nav class="w-full bg-white/80 backdrop-blur-md shadow-md fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div class="text-2xl font-bold text-green-600">Expenzo</div>
+          <div class="hidden md:flex space-x-6 text-gray-700 font-medium">
+            <a href="dash.html" class="hover:text-green-600 transition">Dashboard</a>
+            <a href="a.html" class="hover:text-green-600 transition">Add Expense</a>
+            <a href="c.html" class="hover:text-green-600 transition">Categorize</a>
+            <a href="visual.html" class="hover:text-green-600 transition">Visualization</a>
+            <a href="logout.html" class="hover:text-green-600 transition">Logout</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="pt-24"></div>
+
+      <main class="max-w-7xl mx-auto px-4 md:px-6 fade-in">
+        <h1 class="text-4xl font-bold text-white drop-shadow mb-8">Welcome to Your Dashboard</h1>
+
+        <!-- Total Expenses -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <div class="glass p-6">
+            <h2 class="text-lg font-semibold text-black-700 mb-2">Total Expenses</h2>
+            <p id="totalExpense" class="text-2xl text-red-600 font-bold">₹0</p>
+          </div>
+        </div>
+
+        <!-- Charts and Recent Expenses -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="glass p-6">
+            <h2 class="text-xl font-semibold text-black-700 mb-4">Expenses by Category</h2>
+            <canvas id="pieChart" class="w-full max-h-80"></canvas>
+            <a href="c.html" class="text-green-600 hover:underline block mt-3 text-sm">View Categorize Page</a>
+          </div>
+
+          <div class="glass p-6">
+            <h2 class="text-xl font-semibold text-black-700 mb-4">Recent Expenses</h2>
+            <ul id="recentExpenses" class="space-y-3 text-sm text-black-600">
+              <li>Loading...</li>
+            </ul>
+            <a href="visual.html" class="text-green-600 hover:underline block mt-3 text-sm">View Visualization</a>
+          </div>
+        </div>
+      </main>
+      <br><br>
+
+      <!-- Footer -->
+      <footer class="bg-green-100 py-10">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+          <div class="mb-4">
+            <i class="fas fa-coins text-3xl text-green-600"></i>
+            <h3 class="text-2xl font-bold text-green-700 mt-2">Expenzo</h3>
+          </div>
+          <p class="text-gray-600 text-sm flex justify-center items-center gap-2">
+            <i class="far fa-copyright"></i>2025 Expenzo. All rights reserved.
+          </p>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Dashboard Script -->
+  <script>
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Please login first.");
+      window.location.href = "login.html";
+    }
+
+    async function fetchDashboardData() {
+      const res = await fetch(`/expenses/${userId}`);
+      return res.json();
+    }
+
+    function renderTotal(expenses) {
+      const total = expenses.reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
+      document.getElementById('totalExpense').textContent = `₹${total.toFixed(2)}`;
+    }
+
+    function renderPieChart(expenses) {
+      const categoryMap = {};
+      expenses.forEach(exp => {
+        categoryMap[exp.category] = (categoryMap[exp.category] || 0) + parseFloat(exp.amount);
+      });
+
+      const ctx = document.getElementById('pieChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(categoryMap),
+          datasets: [{
+            data: Object.values(categoryMap),
+            backgroundColor: ['#4CAF50', '#FF6384', '#FFCE56', '#36A2EB', '#9966FF']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'bottom' }
+          }
+        }
+      });
+    }
+
+    function renderRecent(expenses) {
+      const recent = expenses.slice(-5).reverse();
+      const ul = document.getElementById('recentExpenses');
+      ul.innerHTML = '';
+      recent.forEach(exp => {
+        const li = document.createElement('li');
+        li.textContent = `${exp.date.split('T')[0]} - ₹${exp.amount} (${exp.category})`;
+        ul.appendChild(li);
+      });
+    }
+
+    async function initDashboard() {
+      const expenses = await fetchDashboardData();
+      renderTotal(expenses);
+      renderPieChart(expenses);
+      renderRecent(expenses);
+    }
+
+    initDashboard();
+  </script>
+</body>
+</html>

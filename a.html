@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expenzo - Expense Tracker</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      background: url('https://i.pinimg.com/736x/b2/fd/bb/b2fdbb1e3a5e7adcd1deeb653cf19f68.jpg') no-repeat center center fixed;
+      background-size: 50%;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .fade-in {
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+  <!-- Green Overlay -->
+  <div class="relative min-h-screen">
+    <div class="absolute inset-0 bg-green-900/40 backdrop-blur-sm z-0"></div>
+
+    <!-- Main Content -->
+    <div class="relative z-10">
+
+      <!-- Navigation Bar -->
+      <nav class="w-full bg-white/80 backdrop-blur-md shadow-md fixed top-0 left-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div class="text-2xl font-bold text-green-600">Expenzo</div>
+          <div class="hidden md:flex space-x-6 text-gray-700 font-medium">
+            <a href="dash.html" class="hover:text-green-600">Dashboard</a>
+            <a href="a.html" class="hover:text-green-600">Add Expense</a>
+            <a href="c.html" class="hover:text-green-600">Categorize</a>
+            <a href="visual.html" class="hover:text-green-600">Visualization</a>
+            <a href="logout.html" class="hover:text-green-600">Logout</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Spacer -->
+      <div class="pt-24"></div>
+      <br><br><br>
+
+      <!-- Expense Tracker Section -->
+      <section id="home" class="py-10 px-4 fade-in">
+        <div class="container max-w-4xl mx-auto glass p-6">
+          <h1 class="text-2xl font-bold text-green-700 mb-4 text-center">Expenses</h1>
+
+          <!-- Form -->
+          <form id="expense-form" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <input type="text" id="expense-name" placeholder="Expense Name" required class="border border-gray-300 rounded px-4 py-2" />
+            <input type="number" id="expense-amount" placeholder="Amount" required class="border border-gray-300 rounded px-4 py-2" />
+            <select id="expense-category" required class="border border-gray-300 rounded px-4 py-2">
+              <option value="" disabled selected>Select Category</option>
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Other">Other</option>
+            </select>
+            <input type="date" id="expense-date" required class="border border-gray-300 rounded px-4 py-2" />
+            <button type="submit" class="col-span-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">Add Expense</button>
+          </form>
+
+          <!-- Table -->
+          <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <thead class="bg-green-100 text-gray-700">
+                <tr>
+                  <th class="text-left px-4 py-2">Expense Name</th>
+                  <th class="text-left px-4 py-2">Amount</th>
+                  <th class="text-left px-4 py-2">Category</th>
+                  <th class="text-left px-4 py-2">Date</th>
+                  <th class="text-left px-4 py-2">Action</th>
+                </tr>
+              </thead>
+              <tbody id="expense-list" class="text-gray-600 text-sm"></tbody>
+            </table>
+          </div>
+
+          <!-- Total -->
+          <div class="mt-4 text-right text-green-700 font-semibold text-lg">
+            <strong>Total:</strong> <span id="total-amount">₹0</span>
+          </div>
+        </div>
+      </section>
+      <br><br><br>
+
+      <!-- Footer -->
+      <footer class="bg-green-100 py-10">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+          <div class="mb-4">
+            <i class="fas fa-coins text-3xl text-green-600"></i>
+            <h3 class="text-2xl font-bold text-green-700 mt-2">Expenzo</h3>
+          </div>
+          <p class="text-gray-600 text-sm flex justify-center items-center gap-2">
+            <i class="far fa-copyright"></i>
+            2025 Expenzo. All rights reserved.
+          </p>
+        </div>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- JS Logic -->
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("expense-form");
+    const expenseList = document.getElementById("expense-list");
+    const totalAmount = document.getElementById("total-amount");
+
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Please login first.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    function renderExpenses(expenses) {
+      expenseList.innerHTML = "";
+      let total = 0;
+      expenses.forEach((exp) => {
+        total += parseFloat(exp.amount);
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td class="px-4 py-2">${exp.name}</td>
+          <td class="px-4 py-2">₹${exp.amount}</td>
+          <td class="px-4 py-2">${exp.category}</td>
+          <td class="px-4 py-2">${exp.date}</td>
+          <td class="px-4 py-2 text-red-500 cursor-pointer delete-btn" data-id="${exp.id}">Delete</td>
+        `;
+        expenseList.appendChild(row);
+      });
+      totalAmount.textContent = `₹${total}`;
+
+      // Attach delete button events
+      const deleteButtons = document.querySelectorAll(".delete-btn");
+      deleteButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const expenseId = btn.getAttribute("data-id");
+          
+            fetch(`/delete-expense/${expenseId}`, {
+              method: "DELETE",
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.message === "Expense deleted successfully") {
+                  loadExpenses(); // Refresh the list
+                } else {
+                  alert("Failed to delete expense.");
+                }
+              })
+              .catch((err) => {
+                console.error("Error deleting expense:", err);
+              });
+          }
+        );
+      });
+    }
+
+    function loadExpenses() {
+      fetch(`/expenses/${userId}`)
+        .then((res) => res.json())
+        .then((data) => renderExpenses(data))
+        .catch((err) => {
+          console.error("Error loading expenses:", err);
+        });
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("expense-name").value;
+      const amount = document.getElementById("expense-amount").value;
+      const category = document.getElementById("expense-category").value;
+      const date = document.getElementById("expense-date").value;
+
+      fetch("/add-expense", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: userId, name, amount, category, date }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.message === "Expense added successfully") {
+            form.reset();
+            loadExpenses();
+          } else {
+            alert("Failed to add expense.");
+          }
+        })
+        .catch((err) => {
+          console.error("Error adding expense:", err);
+        });
+    });
+
+    // Initial load
+    loadExpenses();
+  });
+</script>
+
+
+</body>
+</html>

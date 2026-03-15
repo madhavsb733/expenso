@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expenzo - Expense Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+    </style>
+  </head>
+  <body class="bg-gradient-to-r from-white to-green-50 text-gray-800">
+    <!-- Navigation Bar -->
+    <nav class="w-full bg-white shadow-md fixed top-0 left-0 z-50">
+      <div
+        class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between"
+      >
+        <!-- Logo -->
+        <div class="text-2xl font-bold text-green-600">Expenzo</div>
+
+        <!-- Navigation Links -->
+        <div class="hidden md:flex space-x-6 text-gray-700 font-medium">
+          <a href="#home" class="hover:text-green-600">Home</a>
+          <a href="#features" class="hover:text-green-600">Features</a>
+          <a href="#about" class="hover:text-green-600">About Us</a>
+          <a href="settings.html" class="hover:text-green-600">Settings</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header
+      id="home"
+      class="min-h-screen flex flex-col items-center justify-center px-6 py-12 pt-32"
+    >
+      <!-- Main Grid: Text and Visual -->
+      <div
+        class="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center mb-16"
+      >
+        <!-- Text Content -->
+        <div>
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">
+            Make Every Cent Count—<span class="text-green-600"
+              >Get Started Today.</span
+            >
+          </h1>
+          <p class="text-lg md:text-xl text-gray-600 mb-8">
+            Track your expenses, understand your habits, and take control of
+            your financial future with ease.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a
+              href="login.html"
+              class="bg-green-600 text-white px-6 py-3 rounded-2xl shadow-lg hover:bg-green-700 transition"
+            >
+              Start Tracking Free
+            </a>
+          </div>
+        </div>
+
+        <!-- Visual Mockup / Placeholder -->
+        <div class="relative">
+          <div
+            class="w-full h-64 bg-green-100 rounded-2xl shadow-inner flex items-center justify-center"
+          >
+            <img
+              src="https://happay.com/blog/wp-content/uploads/sites/12/2022/08/what-is-expense-management-1024x683.png"
+              alt="image"
+              class="max-h-half max-w-half rounded-xl"
+            />
+          </div>
+        </div>
+      </div>
+      <br /><br /><br />
+
+      <!-- Icons Row Below Content -->
+      <div
+        class="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-3 gap-8 text-center"
+      >
+        <!-- Budget Icon -->
+        <div class="flex flex-col items-center">
+          <i class="fas fa-wallet text-4xl text-green-600 mb-2"></i>
+          <p class="font-semibold text-gray-700">Budget</p>
+          <p class="text-gray-500 text-sm">
+            Track and manage your budgets effortlessly.
+          </p>
+        </div>
+
+        <!-- Expense Graph Icon -->
+        <div class="flex flex-col items-center">
+          <i class="fas fa-chart-line text-4xl text-green-600 mb-2"></i>
+          <p class="font-semibold text-gray-700">Expense Graph</p>
+          <p class="text-gray-500 text-sm">
+            Visualize the expenses you enter over time.
+          </p>
+        </div>
+
+        <!-- Access Anywhere Icon with Laptop -->
+        <div class="flex flex-col items-center">
+          <i class="fas fa-laptop text-4xl text-green-600 mb-2"></i>
+          <p class="font-semibold text-gray-700">Access Anywhere</p>
+          <p class="text-gray-500 text-sm">
+            Securely access your financial data from any device, anytime.
+          </p>
+        </div>
+      </div>
+    </header>
+    <br /><br />
+
+    <!-- Features Section -->
+    <section id="features" class="bg-white py-16">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold text-green-600 mb-8">Features</h2>
+        <p class="text-lg text-gray-600 mb-12">
+          Explore how Expenzo makes tracking your finances simple, visual, and
+          effective.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
+          <div
+            class="bg-green-50 p-4 rounded-2xl shadow hover:shadow-lg transition"
+          >
+            <img
+              src="images/dashboard.jpeg"
+              alt="Dashboard Screenshot"
+              class="rounded-xl mb-4 w-full"
+            />
+            <h3 class="font-semibold text-gray-700 text-lg">Smart Dashboard</h3>
+            <p class="text-sm text-gray-500">
+              Get a quick overview of your budget, expenses, and trends.
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div
+            class="bg-green-50 p-4 rounded-2xl shadow hover:shadow-lg transition"
+          >
+            <img
+              src="images/expense.jpeg"
+              alt="Expense Entry Screenshot"
+              class="rounded-xl mb-4 w-full"
+            />
+            <h3 class="font-semibold text-gray-700 text-lg">
+              Easy Expense Entry
+            </h3>
+            <p class="text-sm text-gray-500">
+              Quickly add and categorize your expenses on the go.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div
+            class="bg-green-50 p-4 rounded-2xl shadow hover:shadow-lg transition"
+          >
+            <img
+              src="images/chat.jpeg"
+              alt="Analytics Screenshot"
+              class="rounded-xl mb-4 w-full"
+            />
+            <h3 class="font-semibold text-gray-700 text-lg">
+              Insightful Analytics
+            </h3>
+            <p class="text-sm text-gray-500">
+              Visual graphs help you understand spending patterns.
+            </p>
+          </div>
+
+         
+          
+          <!-- Feature 4 -->
+          <center></center>
+          <div
+            class="bg-green-50 p-4 rounded-2xl shadow hover:shadow-lg transition"
+          >
+            <img
+              src="images/settings.jpeg"
+              alt="Settings Screenshot"
+              class="rounded-xl mb-4 w-full"
+            />
+            <h3 class="font-semibold text-gray-700 text-lg">
+              Customizable Settings
+            </h3>
+            <p class="text-sm text-gray-500">
+              Tailor the app to your needs, including currencies and alerts.
+            </p>
+          </div>
+          </center>
+        </div>
+      </div>
+
+    </section>
+
+    <br />
+
+    <!-- About Us Section -->
+    <section
+      id="about"
+      class="min-h-screen flex items-center justify-center bg-green-50 py-16">
+      <div class="text-center max-w-3xl mx-auto">
+        <h2 class="text-3xl font-bold text-green-600 mb-4">About Us</h2>
+        <p class="text-lg text-gray-600 mb-6">
+          At Expenzo, we believe in empowering you to take control of your
+          finances. Our platform helps you track your expenses effortlessly,
+          understand your spending habits, and create a budget that works for
+          you. Whether you're saving for a big goal or just trying to stay on
+          top of daily expenses, Expenzo provides the tools you need to succeed.
+        </p>
+        <p class="text-lg text-gray-600">
+          Our mission is to provide clarity in personal finance and make
+          budgeting simple for everyone.
+        </p>
+      </div>
+    </section>
+
+    <footer class="bg-green-100 py-10 mt-0">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <!-- Logo & Brand -->
+        <div class="mb-4">
+          <i class="fas fa-coins text-3xl text-green-600"></i>
+          <h3 class="text-2xl font-bold text-green-700 mt-2">Expenzo</h3>
+        </div>
+
+        <!-- Copyright -->
+        <p class="text-gray-600 text-sm flex justify-center items-center gap-2">
+          <i class="far fa-copyright"></i>
+          2025 Expenzo. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

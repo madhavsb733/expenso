@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Expenzo - Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: url('') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+  <!-- Green Blur Overlay -->
+  <div class="fixed inset-0 bg-green-900/40 backdrop-blur-sm -z-10"></div>
+
+  <!-- Navigation Bar -->
+  <nav class="w-full bg-white/80 backdrop-blur-md shadow-md fixed top-0 left-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="text-2xl font-bold text-green-600">Expenzo</div>
+      <div class="hidden md:flex space-x-6 text-gray-700 font-medium">
+        <a href="alogout.html" class="hover:text-green-600">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Spacer for fixed navbar -->
+  <div class="pt-24"></div>
+
+  <!-- Main Admin Card Container -->
+  <div class="max-w-7xl mx-auto px-4 md:px-6 py-10">
+    <div class="bg-white/80 backdrop-blur-md shadow-xl rounded-3xl p-10">
+      <h2 class="text-4xl font-bold text-green-700 text-center mb-12">
+        Welcome, Admin
+      </h2>
+
+      <!-- Admin Action Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-center mb-12">
+        <a href="admin-manage.html" class="bg-white p-8 rounded-3xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+          <i class="fas fa-user-edit text-green-600 text-4xl mb-3"></i>
+          <h3 class="text-2xl font-semibold mb-1">Manage Users</h3>
+          <p class="text-sm text-gray-500">Edit or remove user accounts.</p>
+        </a>
+
+        <a href="admin-stat.html" class="bg-white p-8 rounded-3xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+          <i class="fas fa-chart-line text-green-600 text-4xl mb-3"></i>
+          <h3 class="text-2xl font-semibold mb-1">User Statistics</h3>
+          <p class="text-sm text-gray-500">View expense trends across users.</p>
+        </a>
+
+        <a href="admin-approval.html" class="bg-white p-8 rounded-3xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+          <i class="fas fa-chart-bar text-green-600 text-4xl mb-3"></i>
+          <h3 class="text-2xl font-semibold mb-1">Daily Expenses Overview</h3>
+          <p class="text-sm text-gray-500">View and analyze user expenses daily.</p>
+        </a>
+      </div>
+
+      <!-- Admin Illustration Image Section -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        <div class="flex-1 text-center md:text-left">
+          <h3 class="text-2xl font-semibold text-green-700 mb-4">Admin Insights</h3>
+          <p class="text-gray-600 mb-4 max-w-xl">
+            Welcome to the Admin Dashboard. Manage user activities, oversee system performance, and ensure smooth operations.
+          </p>
+        </div>
+        <div class="flex-1">
+          <img
+            src="1000255597.jpg"
+            alt="Admin Dashboard Illustration"
+            class="w-full max-w-md mx-auto rounded-xl shadow-md"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-green-100 py-10 mt-20">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <div class="mb-4">
+        <i class="fas fa-coins text-3xl text-green-600"></i>
+        <h3 class="text-2xl font-bold text-green-700 mt-2">Expenzo</h3>
+      </div>
+      <p class="text-gray-600 text-sm flex justify-center items-center gap-2">
+        <i class="far fa-copyright"></i>
+        2025 Expenzo. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
