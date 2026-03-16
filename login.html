@@ -87,35 +87,24 @@
 
   <!-- Login Script with Backend Request -->
   <script>
-    document.getElementById("loginForm").addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-      try {
-        const response = await fetch("/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ username, password })
-        });
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-        const data = await response.json();
+    const correctUsername = "user";
+    const correctPassword = "user123";
 
-        if (response.ok && data.user && data.user.id) {
-          localStorage.setItem("userId", data.user.id);
-          alert("Login successful!");
-          window.location.href = "dash.html";
-        } else {
-          alert(data.message || "Login failed. Please try again.");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-        alert("Server error. Please try again later.");
-      }
-    });
-  </script>
+    if (username === correctUsername && password === correctPassword) {
+        localStorage.setItem("userId", "1");
+        alert("Login successful!");
+        window.location.href = "dash.html";
+    } else {
+        alert("Invalid username or password");
+    }
+});
+</script>
 
 </body>
 </html>
